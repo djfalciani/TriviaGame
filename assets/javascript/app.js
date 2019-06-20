@@ -67,21 +67,29 @@ function resetTimer() {
 
 function renderQuestion() {
     // Display Question
-    var Question = trivia.triv1.question;
+    // var Question = trivia.triv1.question;
+    var Question = trivia.triv2.question;
     $("#question").text(Question);
 
     // Loop through Answers, and Display
     var listGroup = $('<ul class="list-group">');
-    var listItem = $('<li class="list-group-item">');
+    // var listItem = $('<li class="list-group-item">').text(trivia.triv1.A);
+    // var listItem = $('<li class="list-group-item">').text(trivia.triv1.A);
     
-    $("#answers").append(listGroup)
-    listGroup.append(listItem)
+    $("#answers").append(listGroup);
+    // listGroup.append(listItem);
+    
+    for (var keys in trivia.triv2.choices) {
+        var listItem = $('<li class="list-group-item">').text(trivia.triv2.choices[keys]);
+        // var txt2 = $("<p></p>").text(trivia[keys].question);
+        listGroup.append(listItem);
+    }
     
     //var xTest = trivia.triv2.choices.a;
     
-    for (key in trivia.triv1) {
-        console.log(trivia.triv1.choices[key]);
-    }
+    // for (key in trivia.triv1) {
+    //     console.log(trivia.triv1.choices[key]);
+    // }
     
     // $("#answers").
     
@@ -100,10 +108,11 @@ function renderQuestion() {
 // $("#answers").text(trivia[triv1].answer);
 var Test = trivia.triv1.question;
 
-for (var keys in trivia) {
-    console.log(trivia[keys].question);
-    $("#question").text(trivia[keys].question);
-}
+// for (var keys in trivia) {
+//     console.log(trivia[keys].question);
+//     var txt2 = $("<p></p>").text(trivia[keys].question);
+//     $("#question").append(txt2);
+// }
 // var Test2 = trivia[triv1].question;
 // console.log(Test);
 // console.log(Test2);
