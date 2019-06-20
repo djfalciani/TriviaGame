@@ -22,60 +22,61 @@
 
 var trivia = [
     // Question 1
-    {question: "what is 1+2?",
+    {question: "Dobby the House Elf makes his first apperance in which Harry Potter Book?",
      choices: {
-         a: 1,
-         b: 2,
-         c: 3,
-         d: 4
+         a: "Book 1",
+         b: "Book 2",
+         c: "Book 3",
+         d: "Book 4"
      },
-     answer: "c"
+     answer: "b"
     },
     // Question 2
-    {question: "what is 2+3?",
+    {question: "Which creatures pull the carriages that take students from the Hogwarts Express to the Castle?",
      choices: {
-         a: 3,
-         b: 4,
-         c: 5,
-         d: 6
+         a: "Hippogriffs",
+         b: "Centaurs",
+         c: "Thestrals",
+         d: "Manticores"
      },
      answer: "c"
     },
     // Question 3
-    {question: "what is 3+4?",
+    {question: "Who is the Hufflepuff house ghost?",
      choices: {
-         a: 5,
-         b: 6,
-         c: 7,
-         d: 8
+         a: "Cuthbert Binns",
+         b: "Sir Patrick Delaney-Podmore",
+         c: "The Fat Friar",
+         d: "The Grey Lady"
      },
      answer: "c"
     },
     // Question 4
-    {question: "what is 4+5?",
+    {question: "Who was the headmaster of Hogwarts when the Chamber of Secrets was opened for the first time?",
      choices: {
-         a: 7,
-         b: 8,
-         c: 9,
-         d: 10
+         a: "Armando Dippet",
+         b: "Albus Dumbledore",
+         c: "Phineas Nigellus Black",
+         d: "Brutus Scrimgeour"
      },
-     answer: "c"
+     answer: "a"
     },
     // Question 5
-    {question: "what is 5+6?",
+    {question: "What is the name of the room Harry uses to teach Dumbledore's Army?",
      choices: {
-         a: 9,
-         b: 10,
-         c: 11,
-         d: 12
+         a: "The Restricted Section of the Library",
+         b: "Just in Time Room",
+         c: "The Room of Requirement",
+         d: "The Prefect's Bathroom"
      },
      answer: "c"
     }
 ]
 
 var intervalId;
-var timerOn = false;
-var second = 30;
+var playMode = false;
+var TimeLimit = 30
+var second = TimeLimit;
 
 var lastQuestionIndex = trivia.length -1;
 var currentQuestionIndex = 0;
@@ -87,7 +88,13 @@ var totalCorrectQuestionCount = 0;
 var totalWrongQuestionCount = 0;
 
 $("#startGame").on("click", function() {
-    startTimer();
+    // Flag User as playing game...
+    playMode = true;
+    document.getElementById("startGame").disabled = true;
+
+    
+    // Display 1st Question...
+    renderQuestion();
 });
 
 $("#stopGame").on("click", function() {
@@ -100,6 +107,8 @@ $("#resetGame").on("click", function() {
 
 $("#newQuestion").on("click", function() {
     renderQuestion();
+    // Update current Question Index & Variable..
+    updateCurrentQuestionIndex();
 });
 
 // On Click of Choices...
@@ -119,12 +128,20 @@ function checkAnswer(letter) {
         alert("Incorrect!");
     }
 
+    // Display Result Card...
+    // renderResultCard();
+
     // Check if we have are on last question...
     if (currentQuestionIndex ==lastQuestionIndex) {
         //Game Over...Display Score Page...
+        alert("Game Over!");
+        renderScoreBoard();
+        resetQuiz();
 
     }
     else {
+        // Update current Question Index & Variable..
+        updateCurrentQuestionIndex();
         renderQuestion();
     }
 
@@ -139,7 +156,8 @@ function timer() {
         // If we get here, then user didn't answer so call wrong answer
         updateWrongAnswerTotal();
         // Call Next Question...
-        renderQuestion();
+        checkAnswer("");
+        // renderQuestion();
 
     } else {
         $("#timeTracker").text("Time Remaining: " + second);
@@ -156,7 +174,7 @@ function stop() {
 }
 
 function resetTimer() {
-    second = 30;
+    second = TimeLimit;
     clearInterval(intervalId);
     $("#timeTracker").empty();
 }
@@ -166,8 +184,33 @@ function resetTimer() {
 // }
 
 function resetQuiz() {
+    //Clear Timer...
+    resetTimer();
+
+    // Clear QuizBoard
+    $("#progress").text("");
+    $("#question").text("");
+    $("#A").text("");
+    $("#B").text("");
+    $("#C").text("");
+    $("#D").text("");
+
+    // $("#quizBoard").empty();
+
+    // Reset Global Variables...
     totalWrongQuestionCount = 0;
     totalCorrectQuestionCount = 0;
+    currentQuestionIndex = 0;
+    lastQuestionIndex = trivia.length -1;
+    currentQuestion = 1;
+
+    // Enable Play Button...
+    document.getElementById("startGame").disabled = false;
+
+    // Disable the Restart Btn
+    document.getElementById("reset-game").disabled = true;
+    $("#reset-game").css("display", "none");
+
 }
 
 function updateWrongAnswerTotal() {
@@ -184,7 +227,8 @@ function updateCurrentQuestionIndex() {
 }
 
 function renderQuestion() {
-    
+    // Display Block
+    $("#quizBoard").css("display","block");
     // Display Timer:
     resetTimer();
     startTimer();
@@ -199,7 +243,7 @@ function renderQuestion() {
     // Display Choices...
     for (key in Question.choices) {
         var mc = Question.choices[key];
-        console.log(key);
+        
         switch (key) {
             case "a":
                 $("#A").text(mc);
@@ -215,55 +259,28 @@ function renderQuestion() {
                             break;
                         }
                     }
-                    
-    // Update current Question Index & Variable..
-    updateCurrentQuestionIndex();
-
-
-    // Loop through Answers, and Display
-    // var listGroup = $('<ul class="list-group">');
-    // var listItem = $('<li class="list-group-item">').text(trivia.triv1.A);
-    // var listItem = $('<li class="list-group-item">').text(trivia.triv1.A);
-    
-    // $("#answers").append(listGroup);
-    // listGroup.append(listItem);
-    
-    // for (var keys in trivia.triv2.choices) {
-    //     var listItem = $('<li class="list-group-item">').text(trivia.triv2.choices[keys]);
-    //     // var txt2 = $("<p></p>").text(trivia[keys].question);
-    //     listGroup.append(listItem);
-    // }
-    
-    //var xTest = trivia.triv2.choices.a;
-    
-    // for (key in trivia.triv1) {
-    //     console.log(trivia.triv1.choices[key]);
-    // }
-    
-    // $("#answers").
-    
-    // <ul class="list-group">
-    //     <li class="list-group-item">Cras justo odio</li>
-    //     <li class="list-group-item">Dapibus ac facilisis in</li>
-    //     <li class="list-group-item">Morbi leo risus</li>
-    //     <li class="list-group-item">Porta ac consectetur ac</li>
-    //     <li class="list-group-item">Vestibulum at eros</li>
-    // </ul>
 }
 
-// Test #1 - Display the Question in the Question Div, Display Answers in Answer Div...
-// $("#question").text(trivia[triv1].question);
-// $("#answers").text(trivia[triv1].answer);
-// var Test = trivia.triv1.question;
+function renderScoreBoard() {
+    // Hide Board, and display Recap
+    $("#quizBoard").css("display","none");
+    $("#recapCard").css("display","block");
 
-// for (var keys in trivia) {
-//     console.log(trivia[keys].question);
-//     var txt2 = $("<p></p>").text(trivia[keys].question);
-//     $("#question").append(txt2);
-// }
-// var Test2 = trivia[triv1].question;
-// console.log(Test);
-// console.log(Test2);
+    // Enabled and display Reset Game btn
+    $("#reset-game").css("display", "flex")
+    document.getElementById("reset-game").disabled = true;
 
-// console.log(trivia[triv1].question);
-// console.log(trivia[triv1].answer);
+
+    // Display Scores...
+    // $("#recapCard").html("<h1>End of Game!</h1>");
+    $("#recap-title").text("End of Game!")
+    $("#correct-result").text("Correct: " + totalCorrectQuestionCount);
+    $("#incorrect-result").text("Correct: " + totalWrongQuestionCount);
+}
+
+function renderResultCard() {
+    $("#quizBoard").css("display","none");
+    $("#recapCard").css("display","none");
+    $("#resultCard").css("display","block");
+
+}

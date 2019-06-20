@@ -12,36 +12,52 @@
     <!-- <link rel="stylesheet" href="assets/css/reset.css"> -->
 </head>
 <body>
-    <button id="startGame">Start Game</button>
-    <button id="stopGame">Stop Timer</button>
-    <button id="resetGame">Reset Game</button>
-    <button id="newQuestion">Next Question</button>
-    <h1>Trivia Game</h1>
-    <h2>Time Remaining</h2>
+    
+    <div class="container">
+        <!-- Jumbotron -->
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">Trivia Game</h1>
+                <p class="lead">A Harry Potter themed trivia game for all ages</p>
+                <button id="startGame" type="button" class="btn btn-primary btn-lg">Start Game</button>
+                <button id="reset-game" type="button" class="btn btn-primary btn-lg" disabled = "disabled">Restart Game</button>
+            </div>
+        </div>
 
-    <br>
-    <div id="quizBoard" class="col-lg-8 col-md-6 col-sm-3">
-        <div id="progress"></div>
-        <h1 id="quizQuestion"></h1>
-        <div id="timeTracker"></div>
-        <div id="question"></div>
-        <div id="answers">
-            <div class="choice" id="A"></div>
-            <div class="choice" id="B"></div>
-            <div class="choice" id="C"></div>
-            <div class="choice" id="D"></div>
-        </div>    
-        <!-- <ul class="list-group">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-        </ul> -->
+        <!-- Quiz Board -->
+        <div id="quizBoard" class="col-lg-8 col-md-6 col-sm-3 border rounded-lg ">
+            <div id="progress"></div>
+            <h1 id="quizQuestion"></h1>
+            <div id="timeTracker"></div>
+            <div id="question"></div>
+            <div id="answers">
+                <div class="choice" id="A"></div>
+                <div class="choice" id="B"></div>
+                <div class="choice" id="C"></div>
+                <div class="choice" id="D"></div>
+            </div>    
+            <!-- <ul class="list-group">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul> -->
+        </div>
+
+        <!-- Answer Sheet - UI for Answer Result-->
+        <div id="resultCard">
+            <div id="resultText">Test</div>
+            <div id="result-answer">Test</div>
+        </div>
+
+        <!-- End of Game Recap UI -->
+        <div id="recapCard">
+            <h1 id="recap-title"></h1>
+            <div id="correct-result"></div>
+            <div id="incorrect-result"></div>
+        </div>
     </div>
-
-
-
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
